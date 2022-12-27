@@ -1,9 +1,9 @@
 import PyQt5
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QSize, QPoint, QTimer
+from PyQt5.QtCore import QPropertyAnimation, QEasingCurve, QSize, QPoint, QTimer
 import sys
-
+import random
 
 class MainWindow(QMainWindow):
     rectList = []
@@ -23,16 +23,22 @@ class MainWindow(QMainWindow):
         self.btn_pos_anim2 = QPropertyAnimation(self.clean_button, b'pos')
         self.btn_size_anim2 = QPropertyAnimation(self.clean_button, b'size')
 
+        self.btn_pos_anim3 = QPropertyAnimation(self.random_button, b'pos')
+        self.btn_size_anim3 = QPropertyAnimation(self.random_button, b'size')
+
         self.btn_pos_anim.setDuration(100)
         self.btn_size_anim.setDuration(100)
         self.btn_pos_anim1.setDuration(100)
         self.btn_size_anim1.setDuration(100)
         self.btn_pos_anim2.setDuration(100)
         self.btn_size_anim2.setDuration(100)
+        self.btn_pos_anim3.setDuration(100)
+        self.btn_size_anim3.setDuration(100)
 
         self.play_button.clicked.connect(self.playProcess)
         self.one_step_button.clicked.connect(self.oneStep)
         self.clean_button.clicked.connect(self.clean)
+        self.random_button.clicked.connect(self.noize)
         coords = [0, 80]
         for i in range(50):
             self.rectList.append([])
@@ -123,7 +129,34 @@ class MainWindow(QMainWindow):
                 self.rectList[y][x].wd = 0
                 self.rectList[y][x].wb = 0
                 self.rectList[y][x].setStyleSheet('background: rgb(255, 255, 255);border-radius: 40')
+    def noize(self):
+        self.btn_size_anim3.stop()
+        self.btn_pos_anim3.stop()
 
+        self.btn_size_anim3.setEasingCurve(QEasingCurve.SineCurve)
+        self.btn_pos_anim3.setEasingCurve(QEasingCurve.SineCurve)
+
+        self.btn_pos_anim3.setStartValue(QPoint(270, 10))
+        self.btn_pos_anim3.setEndValue(QPoint(275, 15))
+
+        self.btn_size_anim3.setStartValue(QSize(61, 61))
+        self.btn_size_anim3.setEndValue(QSize(51, 51))
+
+        self.btn_pos_anim3.start()
+        self.btn_size_anim3.start()
+        for y in range(1, len(self.rectList) - 1):
+            for x in range(1, len(self.rectList[y]) - 1):
+                sd = random.randint(0, 1)
+                if sd:
+                    self.rectList[y][x].life = 1
+                    self.rectList[y][x].wd = 0
+                    self.rectList[y][x].wb = 0
+                    self.rectList[y][x].setStyleSheet('background: rgb(0,0, 0);border-radius: 40')
+                else:
+                    self.rectList[y][x].life = 0
+                    self.rectList[y][x].wd = 0
+                    self.rectList[y][x].wb = 0
+                    self.rectList[y][x].setStyleSheet('background: rgb(255, 255, 255);border-radius: 40')
     def lifeTick(self):
         for y in range(1, len(self.rectList) - 1):
             for x in range(1, len(self.rectList[y]) - 1):
