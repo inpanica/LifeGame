@@ -73,7 +73,7 @@ class MainWindow(QMainWindow):
         if flag:
             self.play_button.setText('||')
             self.lifeTick()
-            self.masterTimer.start(50)
+            self.masterTimer.start(20)
         else:
             self.play_button.setText('>')
             self.masterTimer.stop()
