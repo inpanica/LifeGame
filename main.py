@@ -34,23 +34,23 @@ class MainWindow(QMainWindow):
         self.one_step_button.clicked.connect(self.oneStep)
         self.clean_button.clicked.connect(self.clean)
         coords = [0, 80]
-        for i in range(26):
+        for i in range(50):
             self.rectList.append([])
-            for j in range(34):
+            for j in range(68):
                 s = PyQt5.QtWidgets.QPushButton('', self)
-                s.setGeometry(coords[0], coords[1], 20, 20)
+                s.setGeometry(coords[0], coords[1], 10, 10)
                 s.setAccessibleName('btn_' + str(i) + '_' + str(j))
                 s.setStyleSheet('background: rgb(255, 255, 255);border-radius: 40')
                 s.life = 0
                 s.wd = 0
                 s.wb = 0
-                if i != 0 and j != 0 and i != 25 and j != 33:
+                if i != 0 and j != 0 and i != 49 and j != 67:
                     s.clicked.connect(self.rectColorize)
                 else:
                     s.setStyleSheet('background: rgb(122, 122, 122);border-radius: 40')
                 self.rectList[-1].append(s)
-                coords[0] += 20
-            coords[1] += 20
+                coords[0] += 10
+            coords[1] += 10
             coords[0] = 0
 
     def rectColorize(self):
